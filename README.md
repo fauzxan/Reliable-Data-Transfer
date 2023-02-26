@@ -17,6 +17,7 @@ python demo_sender.py ss [ss | sr | gbn]
 
 ## Selective repeat protocol
 The following algorithm has been implemented from the textbook:
+
 ### Sender side
 1. Data received from above. When data is received from above, the SR sender
 checks the next available sequence number for the packet. If the sequence
@@ -155,7 +156,8 @@ fall within the window, these packets are transmitted.
       # You may also choose to delete it completely. But for logging purposes, we will retain this information.
       self.window[msg_data.seq_num] = b''
       
-      # If the sender base is at the same  position as the sequence number, you may update the sender base to the position of the earliest unack-ed packet
+      # If the sender base is at the same  position as the sequence number, you may update the sender
+      # base to the position of the earliest unack-ed packet
       if msg_data.seq_num == self.sender_base:
         # Move the base as long as timer is not a NONE object and the timer for that index is finished 
         i = self.sender_base
