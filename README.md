@@ -19,10 +19,10 @@ python demo_sender.py ss [ss | sr | gbn]
 The following algorithm has been implemented from the textbook:
 
 ### Sender side
-1. Data received from above. When data is received from above, the SR sender
+1. **Data received from above.** When data is received from above, the SR sender
 checks the next available sequence number for the packet. If the sequence
 number is within the sender’s window, the data is packetized and sent; otherwise
-it is either bu!ered or returned to the upper layer for later transmission,
+it is either buffered or returned to the upper layer for later transmission,
 as in GBN.
 
 ```python3
@@ -64,10 +64,10 @@ def send(self, msg):
 
 
 
-2. Timeout. Timers are again used to protect against lost packets. However, each
+2. **Timeout.** Timers are again used to protect against lost packets. However, each
 packet must now have its own logical timer, since only a single packet will
 be transmitted on timeout. A single hardware timer can be used to mimic the
-operation of multiple logical timers [Varghese 1997].
+operation of multiple logical timers.
 
 ```python3
 def _timeout(self, seq_num):
@@ -118,7 +118,7 @@ def _timeout(self, seq_num):
 
 ```
 
-3. ACK received. If an ACK is received, the SR sender marks that packet as
+3. **ACK received.** If an ACK is received, the SR sender marks that packet as
 having been received, provided it is in the window. If the packet’s sequence
 number is equal to send_base, the window base is moved forward to the
 unacknowledged packet with the smallest sequence number. If the window
@@ -178,17 +178,14 @@ fall within the window, these packets are transmitted.
 
 
 ### Receiver side
-1. Packet with sequence number in [rcv_base, rcv_base+N-1]is correctly
-received. In this case, the received packet falls within the receiver’s window
+1. **Packet with sequence number in [rcv_base, rcv_base+N-1]is correctly
+received.** In this case, the received packet falls within the receiver’s window
 and a selective ACK packet is returned to the sender. If the packet was not
-previously received, it is bu!ered. If this packet has a sequence number equal to
-the base of the receive window (rcv_base in Figure 3.22), then this packet,
-and any previously bu!ered and consecutively numbered (beginning with
+previously received, it is buffered. If this packet has a sequence number equal to
+the base of the receive window, then this packet,
+and any previously buffered and consecutively numbered (beginning with
 rcv_base) packets are delivered to the upper layer. The receive window is
-then moved forward by the number of packets delivered to the upper layer. As
-an example, consider Figure 3.26. When a packet with a sequence number of
-rcv_base=2 is received, it and packets 3, 4, and 5 can be delivered to the
-upper layer.
+then moved forward by the number of packets delivered to the upper layer. 
 
 ```python3
 # This method also falls within the function: handle_arrival_msg()
@@ -224,8 +221,8 @@ upper layer.
 
 ```
 
-2. Packet with sequence number in [rcv_base-N, rcv_base-1]is correctly
-received. In this case, an ACK must be generated, even though this is a
+2. **Packet with sequence number in [rcv_base-N, rcv_base-1]is correctly
+received.** In this case, an ACK must be generated, even though this is a
 packet that the receiver has previously acknowledged.
 3. Otherwise. Ignore the packet.
 
