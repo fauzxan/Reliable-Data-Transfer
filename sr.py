@@ -106,13 +106,17 @@ class SelectiveRepeat:
         if self.timer[msg_data.seq_num].finished:
           util.log("Sequence number "+str(msg_data.seq_num)+" has been terminated.")
       
-      # Reset that index in the window to free up space
+      # Reset that index in the window to free up space. 
+      # But for logging purposes, we will retain this information.
       self.window[msg_data.seq_num] = b''
-        
+      
+      # If the sender base is at the same  position as the sequence number, 
+      # you may update the sender base to the position of the earliest unack-ed packet
       if msg_data.seq_num == self.sender_base:
         # Move the base as long as timer is not a NONE object and the timer for that index is finished 
         i = self.sender_base
         while self.timer[i] and not self.timer[i].is_alive():
+          # You may delete the timer at index i. But we will retain the information for logging purposes.
           self.timer[i] = None
           self.sender_base += 1
           i += 1
@@ -142,7 +146,8 @@ class SelectiveRepeat:
         # Store the paacket in the buffer
         self.receive_buffer[msg_data.seq_num] = msg_data.payload
 
-        # If the seq_num is at the receiver base
+        # If the seq_num is at the receiver base, then send all the packets upto the first unsent packet
+        # (The first unsent packet will not be present in the dict, which is when we break)
         if msg_data.seq_num == self.receiever_base:
           i = self.receiever_base
           while self.receive_buffer[i]:
@@ -181,15 +186,13 @@ class SelectiveRepeat:
 
 
   def _wait_for_last_ACK(self):
+    # Just wait for all the timers to come to a stop. The algorithm will make the value None if stopped
     for value in self.timer.values():
       if value:
         time.sleep(1)
     util.log("\nFinal state of the window: "+str(self.window))
     util.log("\nFinal state of the timers: "+str(self.timer))
-    # while self.sender_base < config.WINDOW_SIZE-1:
-    #   util.log("Waiting for last ACK from receiver with sequence # "
-    #            + str(int(self.next_sequence_number-1)) + ".")
-    #   time.sleep(1)
+
 
 
   def _timeout(self, seq_num):
