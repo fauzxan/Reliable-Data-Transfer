@@ -6,7 +6,7 @@ protocol and the implementation of a Go-Back-N (GBN) protocol
 
 ## Setup and testing
 Open the project directory on terminal and type in the following:
-```ubuntu22.0
+```console
 python demo_receiver.py [ss | sr | gbn]
 python demo_sender.py ss [ss | sr | gbn]
 ```
