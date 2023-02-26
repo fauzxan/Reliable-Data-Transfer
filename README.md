@@ -1,7 +1,6 @@
 # Reliable-Data-Transfer
 Exploring the usage of Stop and Wait, Give Back N and Selective Repeat Protocols
-This code has been adapted from https://github.com/z9z/reliable_data_transfer (author Susanna Edens),  
-where you could find the implementation of a simple stop-and-wait (RDT 3.0 in the A Top-Down Approach) 
+This code has been adapted from https://github.com/z9z/reliable_data_transfer (author Susanna Edens), where you could find the implementation of a simple stop-and-wait (RDT 3.0 in the A Top-Down Approach) 
 protocol and the implementation of a Go-Back-N (GBN) protocol
 
 ## Setup and testing
