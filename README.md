@@ -16,6 +16,7 @@ python demo_sender.py ss [ss | sr | gbn]
 
 ## Selective repeat protocol
 The following algorithm has been implemented from the textbook:
+![image](https://github.com/fauzxan/Reliable-Data-Transfer/assets/92146562/51db0d21-4ab8-449b-933f-ba6b83d78119)
 
 ### Sender side
 1. **Data received from above.** When data is received from above, the SR sender
